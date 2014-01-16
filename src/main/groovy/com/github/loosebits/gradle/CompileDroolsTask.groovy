@@ -2,6 +2,7 @@ package com.github.loosebits.gradle
 
 
 import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderError;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
 import org.drools.compiler.PackageBuilderConfiguration;
@@ -38,7 +39,15 @@ class CompileDroolsTask extends DefaultTask {
             }
         }
         if (builder.hasErrors()) {
-            throw new TaskExecutionException(builder.errors)
+            StringBuilder buff = new StringBuilder()
+            builder.errors.groupBy { it.resource }.each { key, value ->
+                buff.append("$key.file \n --------------------------- \n")
+                value.each {
+                    buff.append("$it.lines: $it.message\n")
+                }
+                buff.append("\n\n")
+            } 
+            throw new TaskExecutionException(this,new RuntimeException(buff.toString()))
         }
         ext.outputFile.parentFile.mkdirs()
         ObjectOutputStream oo = new ObjectOutputStream(new FileOutputStream(ext.outputFile.absolutePath))
