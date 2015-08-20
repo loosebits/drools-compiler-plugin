@@ -4,7 +4,7 @@ apply plugin: 'maven'
 
 group = 'com.github.loosebits'
 archivesBaseName = 'drools-compiler-plugin'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 sourceCompatibility = 1.5
 
 
