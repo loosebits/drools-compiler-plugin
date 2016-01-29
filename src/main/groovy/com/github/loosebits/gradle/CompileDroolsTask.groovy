@@ -41,7 +41,7 @@ class CompileDroolsTask extends DefaultTask {
         if (builder.hasErrors()) {
             StringBuilder buff = new StringBuilder()
             builder.errors.groupBy { it.resource }.each { key, value ->
-                buff.append("$key.file \n --------------------------- \n")
+                buff.append("$key \n --------------------------- \n")
                 value.each {
                     buff.append("$it.lines: $it.message\n")
                 }
